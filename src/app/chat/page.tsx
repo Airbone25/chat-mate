@@ -3,11 +3,16 @@ import { useState } from "react";
 import Sidebar from "../../components/SideBar";
 import ChatWindow from "../../components/Chatwindow";
 
-type Persona = { id: string; name?: string; tagline?: string; avatarUrl?: string };
+type Persona = { id: string; name?: string; tagline?: string; avatarUrl?: string }
+type ChatMessage = {
+  sender: string;
+  content: string;
+};
 
-export default function page() {
+
+export default function Page() {
   const [selectedPersona, setSelectedPersona] = useState<Persona>();
-  const [chats, setChats] = useState<Record<string, any[]>>({});
+  const [chats, setChats] = useState<Record<string, ChatMessage[]>>({});
 
   const selectPersona = (persona: Persona) => {
     setSelectedPersona(persona);
@@ -16,8 +21,12 @@ export default function page() {
 
   return (
     <div className="flex h-screen">
-      <Sidebar selected={selectedPersona} onSelect={selectPersona} chats={chats} />
-      <ChatWindow persona={selectedPersona} chatHistory={chats[selectedPersona?.id] || []} setChats={setChats} />
+      <Sidebar selected={selectedPersona!} onSelect={selectPersona} />
+      <ChatWindow
+          persona={selectedPersona!}
+          chatHistory={chats[selectedPersona?.id!] || []}
+          setChats={setChats}
+        />
     </div>
   );
 }

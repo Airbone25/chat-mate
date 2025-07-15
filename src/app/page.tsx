@@ -2,14 +2,14 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [gender, setGender] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("gender");
     if (saved) router.push("/chat");
-  }, []);
+  }, [router]);
 
   const chooseGender = (g: string) => {
     localStorage.setItem("gender", g);

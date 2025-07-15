@@ -243,7 +243,7 @@ const PERSONAS = [
     avatarUrl: "https://example.com/rahul.jpg",
     personalityProfile:
       "Rahul is a 24-year-old from Pune who reads philosophy and solves friends' problems. He speaks in a calm mix of English and Hindi, offering thoughtful advice and gently teasing when he spots logical fallacies. Rahul treats the user as a close friend and remembers their big goals.",
-  }, 
+  },
   {
     id: 4,
     name: "Muskan",
@@ -273,6 +273,11 @@ const PERSONAS = [
   },
 ];
 
+type ChatMessage = {
+  sender: string;
+  content: string;
+};
+
 export async function POST(req: Request) {
   try {
     const { message, personaId, chatHistory = [] } = await req.json();
@@ -283,10 +288,11 @@ export async function POST(req: Request) {
       parts: [{ text: PERSONAS.find(p => p.id == personaId)?.persona || "You are a helpful assistant." }],
     };
 
-    const historyMessages = chatHistory.map((msg: any) => ({
+    const historyMessages = (chatHistory as ChatMessage[]).map((msg) => ({
       role: msg.sender === "user" ? "user" : "model",
       parts: [{ text: msg.content }],
     }));
+
 
     const contents = [
       systemMessage,
@@ -325,20 +331,20 @@ export async function GET() {
   }
 }
 
-// GET /api/chat/personas/:id
-export async function GET_PERSONA(req: Request) {
-  const url = new URL(req.url);
-  const personaId = url.searchParams.get("id");
+// // GET /api/chat/personas/:id
+// export async function GET_PERSONA(req: Request) {
+//   const url = new URL(req.url);
+//   const personaId = url.searchParams.get("id");
 
-  if (!personaId) {
-    return NextResponse.json({ error: "Persona ID is required" }, { status: 400 });
-  }
+//   if (!personaId) {
+//     return NextResponse.json({ error: "Persona ID is required" }, { status: 400 });
+//   }
 
-  const persona = PERSONAS.find(p => p.name.toLowerCase() === personaId.toLowerCase());
+//   const persona = PERSONAS.find(p => p.name.toLowerCase() === personaId.toLowerCase());
 
-  if (!persona) {
-    return NextResponse.json({ error: "Persona not found" }, { status: 404 });
-  }
+//   if (!persona) {
+//     return NextResponse.json({ error: "Persona not found" }, { status: 404 });
+//   }
 
-  return NextResponse.json(persona);
-}
+//   return NextResponse.json(persona);
+// }

@@ -9,12 +9,12 @@ type Persona = { id: string; name?: string; tagline?: string; avatarUrl?: string
 type SidebarProps = {
   selected: Persona;
   onSelect: (persona: Persona) => void;
-  chats: Record<string, any[]>;
+  // chats: Record<string, any[]>;
   // unread: Record<string, number>; 
 };
 
-export default function Sidebar({ selected, onSelect, chats }: SidebarProps) {
-  const [personas, setPersonas] = useState<any[]>([]);
+export default function Sidebar({ selected, onSelect}: SidebarProps) {
+  const [personas, setPersonas] = useState<Persona[]>([]);
 
   useEffect(() => {
     fetchPersonas();
@@ -40,11 +40,11 @@ export default function Sidebar({ selected, onSelect, chats }: SidebarProps) {
             <FiMoreVertical className="text-gray-400" />
         </div>
       </div>
-      {personas.map((p,i) => (
+      {personas.map((p) => (
         <div
           key={p.id}
           className={`flex items-center p-3 cursor-pointer hover:bg-[#2a2a2a] ${
-            selected === p.name ? "bg-[#2a2a2a]" : ""
+            selected?.name === p.name ? "bg-[#2a2a2a]" : ""
           }`}
           onClick={() => onSelect(p)}
         >
