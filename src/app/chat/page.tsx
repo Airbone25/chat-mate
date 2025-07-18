@@ -29,16 +29,11 @@ export default function Page() {
         toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
       />
       <div className="flex-1 flex flex-col">
-        {!selectedPersona && (
-          <div className="md:hidden bg-[#1f1f1f] p-4 text-white font-bold border-b border-[#333] flex justify-between items-center">
-            <div>Chat-Mates</div>
-            <button onClick={() => setIsSidebarOpen(true)} className="text-white text-xl">☰</button>
-          </div>
-        )}
         <ChatWindow
           persona={selectedPersona!}
           chatHistory={chats[selectedPersona?.id!] || []}
           setChats={setChats}
+          toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
         />
       </div>
     </div>

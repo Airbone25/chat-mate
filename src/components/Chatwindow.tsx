@@ -14,9 +14,10 @@ interface ChatWindowProps {
     persona: Persona;
     chatHistory: ChatMessage[];
     setChats: React.Dispatch<React.SetStateAction<Record<string, ChatMessage[]>>>;
+    toggleSidebar: () => void;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ persona, chatHistory, setChats }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({ persona, chatHistory, setChats,toggleSidebar }) => {
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -55,11 +56,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ persona, chatHistory, setChats 
 
     return (
         <div className="flex flex-col flex-1 bg-[#111]">
-            <div className="bg-[#1f1f1f] p-3 text-white font-bold border-b border-[#333]">
-                <button className="md:hidden text-white text-xl" onClick={() => history.back()}>
+            <div className="flex justify-between bg-[#1f1f1f] p-3 text-white font-bold border-b border-[#333]">
+                <div className="flex items-center">
+                    <img src={`/${persona.avatarUrl}`} alt="dp" className="rounded-full h-10 mr-3"/>
+                    {persona.name?.toUpperCase()}
+                </div>
+                <button className="md:hidden text-white text-xl mr-2" onClick={toggleSidebar}>
                     ☰
                 </button>
-                {String(persona.name).toUpperCase()}</div>
+            </div>
             <div className="flex-1 overflow-y-auto p-4 space-y-2">
                 {chatHistory.map((msg, idx) => (
                     <div
