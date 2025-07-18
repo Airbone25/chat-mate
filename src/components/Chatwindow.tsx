@@ -33,10 +33,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ persona, chatHistory, setChats 
         setChats((prev) => ({ ...prev, [persona.id]: newHistory }));
         setInput("");
 
+        const userId = "user-id-placeholder"; // TODO: Replace with actual user ID logic
+
         const res = await axios.post("/api/chat", {
             message: input,
             personaId: persona.id,
             chatHistory,
+            userId,
         });
 
         setChats((prev) => ({
