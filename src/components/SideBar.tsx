@@ -9,11 +9,11 @@ type Persona = { id: string; name?: string; tagline?: string; avatarUrl?: string
 type SidebarProps = {
   selected: Persona;
   onSelect: (persona: Persona) => void;
-  // chats: Record<string, any[]>;
-  // unread: Record<string, number>; 
+  isOpen: boolean;
+  toggleSidebar: () => void;
 };
 
-export default function Sidebar({ selected, onSelect }: SidebarProps) {
+export default function Sidebar({ selected, onSelect, isOpen, toggleSidebar }: SidebarProps) {
   const [personas, setPersonas] = useState<Persona[]>([]);
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -42,7 +42,15 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
   }
 
   return (
-    <div className="w-[300px] bg-[#1f1f1f] border-r border-[#333] text-white h-full flex flex-col">
+    <div className={`
+      fixed z-30 md:static top-0 left-0 h-full bg-[#1f1f1f] text-white w-64 transform 
+      ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+      transition-transform duration-300 ease-in-out md:translate-x-0
+      border-r border-[#333] flex flex-col
+    `}>
+      <div className="md:hidden p-2 flex justify-end">
+        <button onClick={toggleSidebar} className="text-gray-400 text-xl">✕</button>
+      </div>
       <div className="flex items-center justify-between p-4 border-b border-[#333]">
         <div className="p-4 font-bold text-xl">Chat-Mates</div>
         <div className="flex items-center space-x-2">

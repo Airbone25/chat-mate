@@ -55,7 +55,11 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ persona, chatHistory, setChats 
 
     return (
         <div className="flex flex-col flex-1 bg-[#111]">
-            <div className="bg-[#1f1f1f] p-3 text-white font-bold border-b border-[#333]">{String(persona.name).toUpperCase()}</div>
+            <div className="bg-[#1f1f1f] p-3 text-white font-bold border-b border-[#333]">
+                <button className="md:hidden text-white text-xl" onClick={() => history.back()}>
+                    ☰
+                </button>
+                {String(persona.name).toUpperCase()}</div>
             <div className="flex-1 overflow-y-auto p-4 space-y-2">
                 {chatHistory.map((msg, idx) => (
                     <div
@@ -64,8 +68,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ persona, chatHistory, setChats 
                     >
                         <div
                             className={`max-w-[75%] px-4 py-2 rounded-2xl ${msg.sender === "user"
-                                    ? "bg-[#0b93f6] text-white"
-                                    : "bg-[#2a2a2a] text-gray-200"
+                                ? "bg-[#0b93f6] text-white"
+                                : "bg-[#2a2a2a] text-gray-200"
                                 }`}
                         >
                             {msg.content}
